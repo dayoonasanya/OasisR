@@ -1,0 +1,61 @@
+.about-me {
+    padding: 60px 20px;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    min-height: 50vh;
+}
+
+.about-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.about-image {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.about-image img {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
+.about-description {
+    flex: 2;
+    max-width: 60%;
+}
+
+.about-description h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.about-description p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.about-description .social-icons {
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+.about-description .social-icons a {
+    margin-right: 10px;
+    color: #ff5a5f;
+    font-size: 24px;
+}
+
+.about-description .social-icons a:hover {
+    color: #333;
+}
+
