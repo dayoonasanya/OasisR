@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/recipe.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<body>
+    <div class="card-container">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <img src="https://i.postimg.cc/c4NkkgSM/2.png" alt="Logo">
+                    <div>
+                        <h1></h1>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="index.html#categories">Category</a></li>
+                        <li><a href="recipe.html">Recipes</a></li>
+                        <li>
+                            <a href="#">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#categories">Categories</a></li>
+                                <li><a href="recipe.html">Recipes</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <a href="#" class="login">Login</a>
+                    <a href="contact.html" class="submit-recipe">+ Submit Recipe</a>
+                </div>
+            </div>
+        </header>
+            <section class="recipes">
+                <h2>Recipes</h2>
+                <div id="recipe-container" class="recipe-grid"></div>
+            </section>
+    
+
+            <div id="recipe-details" class="recipe-details">
+                <div class="recipe-details-content">
+                    <span id="close-details" class="close">&times;</span>
+                    <div class="details-card">
+                        <h2 id="details-title"></h2>
+                        <img id="details-image" src="" alt="">
+                        <p id="details-category"></p>
+                        <h3>Ingredients</h3>
+                        <ul id="details-ingredients"></ul>
+                        <h3>Instructions</h3>
+                        <ol id="details-instructions"></ol>
+                    </div>
+                </div>
+            </div>
+        
+            <div id="overlay" class="overlay"></div>        
+        <footer>
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <img src="https://i.postimg.cc/c4NkkgSM/2.png" alt="Logo">
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Ready to cook?</h3>
+                    <p>Sign up for our weekly newsletters!</p>
+                    <form>
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
+                <div class="footer-links">
+                    <h3>Let's Be Friends!</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <ul>
+                        <li><a href="#">Recipes</a></li>
+                        <li><a href="#">Quick & Easy</a></li>
+                        <li><a href="#">In The Kitchen</a></li>
+                        <li><a href="#">Buying Guides</a></li>
+                        <li><a href="#">Holidays & Seasons</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Editorial Guidelines</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+        .then(response => response.json())
+        .then(data => {
+            const recipes = data.meals;
+            const recipeContainer = document.getElementById('recipe-container');
+            const recipeDetails = document.getElementById('recipe-details');
+            const overlay = document.getElementById('overlay');
+            const closeDetails = document.getElementById('close-details');
+
+            recipes.forEach(recipe => {
+                const recipeCard = document.createElement('div');
+                recipeCard.className = 'recipe-card';
+
+                const recipeImage = document.createElement('img');
+                recipeImage.src = recipe.strMealThumb;
+                recipeImage.alt = recipe.strMeal;
+
+                const recipeCardContent = document.createElement('div');
+                recipeCardContent.className = 'recipe-card-content';
+
+                const recipeTitle = document.createElement('h3');
+                recipeTitle.textContent = recipe.strMeal;
+
+                const recipeCategory = document.createElement('p');
+                recipeCategory.className = 'category';
+                recipeCategory.textContent = `${recipe.strArea} | ${recipe.strCategory}`;
+
+                const ingredientsTitle = document.createElement('h4');
+                ingredientsTitle.textContent = 'Ingredients';
+
+                const ingredientsList = document.createElement('div');
+                ingredientsList.className = 'ingredients';
+
+                for (let i = 1; i <= 5; i++) {
+                    if (recipe[`strIngredient${i}`]) {
+                        const ingredient = document.createElement('div');
+                        ingredient.className = 'ingredient';
+                        ingredient.textContent = recipe[`strIngredient${i}`];
+                        ingredientsList.appendChild(ingredient);
+                    }
+                }
+
+                const moreIngredients = document.createElement('div');
+                moreIngredients.className = 'ingredient more';
+                moreIngredients.textContent = `+${Object.keys(recipe).filter(key => key.includes('strIngredient') && recipe[key]).length - 5} More`;
+                ingredientsList.appendChild(moreIngredients);
+
+                const watchButton = document.createElement('button');
+                watchButton.className = 'watch-button';
+                watchButton.textContent = 'Learn More';
+                watchButton.onclick = () => showDetails(recipe);
+
+                recipeCardContent.appendChild(recipeTitle);
+                recipeCardContent.appendChild(recipeCategory);
+                recipeCardContent.appendChild(ingredientsTitle);
+                recipeCardContent.appendChild(ingredientsList);
+                recipeCardContent.appendChild(watchButton);
+
+                recipeCard.appendChild(recipeImage);
+                recipeCard.appendChild(recipeCardContent);
+
+                recipeContainer.appendChild(recipeCard);
+            });
+
+            closeDetails.onclick = () => {
+                recipeDetails.classList.remove('open');
+                overlay.classList.remove('open');
+            };
+
+            overlay.onclick = () => {
+                recipeDetails.classList.remove('open');
+                overlay.classList.remove('open');
+            };
+        });
+
+        function showDetails(recipe) {
+            document.getElementById('details-title').textContent = recipe.strMeal;
+            document.getElementById('details-image').src = recipe.strMealThumb;
+            document.getElementById('details-category').textContent = `${recipe.strArea} | ${recipe.strCategory}`;
+            document.getElementById('details-ingredients').innerHTML = '';
+
+            for (let i = 1; i <= 20; i++) {
+                if (recipe[`strIngredient${i}`]) {
+                    const ingredient = document.createElement('li');
+                    ingredient.textContent = `${recipe[`strIngredient${i}`]} - ${recipe[`strMeasure${i}`]}`;
+                    document.getElementById('details-ingredients').appendChild(ingredient);
+                }
+            }
+
+            const instructions = recipe.strInstructions.split('. ').map(instr => `<li>${instr}.</li>`).join('');
+            document.getElementById('details-instructions').innerHTML = instructions;
+            document.getElementById('recipe-details').classList.add('open');
+            document.getElementById('overlay').classList.add('open');
+        }
+    </script>
+</body>
+</html>
